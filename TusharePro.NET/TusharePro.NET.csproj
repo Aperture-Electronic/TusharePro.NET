@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>TusharePro</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Deng LiWei</Authors>
+    <Company>Aperture Electronic</Company>
+    <Copyright>Copyright (C) 2021 Aperture Electronic, ownership of open source projects reserved.</Copyright>
+  </PropertyGroup>
+
+</Project>
