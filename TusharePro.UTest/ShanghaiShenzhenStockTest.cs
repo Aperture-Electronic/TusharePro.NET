@@ -35,5 +35,38 @@ namespace TusharePro.UTest
             Assert.AreEqual(stockInfo.Code, "603986");
             Assert.AreEqual(stockInfo.Market, Market.Main);
         }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetMultiBasicInfo()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+
+            List<Stock> stocks = await shSzApi.BasicInformation(ListStatus.Delisting);
+            Assert.IsTrue(stocks.Count > 0);
+            Console.WriteLine($"There are {stocks.Count} delisted stocks");
+        }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetExchangeBasicInfo()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+
+            List<Stock> stocks = await shSzApi.BasicInformation(Exchange.SZSE);
+            Assert.IsTrue(stocks.Count > 0);
+            Console.WriteLine($"SZSE has {stocks.Count} stocks");
+        }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetShSzHkBasicInfo()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+
+            List<Stock> stocks = await shSzApi.BasicInformation(ShSzHkConnect.Shenzhen);
+            Assert.IsTrue(stocks.Count > 0);
+            Console.WriteLine($"Shenzhen-Hongkong connect has {stocks.Count} stocks");
+        }
     }
 }

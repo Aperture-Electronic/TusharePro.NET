@@ -7,7 +7,7 @@ using static TusharePro.Interface.APIInterface;
 namespace TusharePro.ShanghaiShenzhenStock
 {
     /// <summary>
-    /// 股票状态
+    /// 股票上市状态
     /// </summary>
     public enum ListStatus
     {
@@ -48,9 +48,31 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <summary>
         /// CDR
         /// </summary>
-        CDR
+        CDR,
+        /// <summary>
+        /// 没有所属市场板块
+        /// </summary>
+        NA
     }
 
+    /// <summary>
+    /// 交易所
+    /// </summary>
+    public enum Exchange
+    {
+        /// <summary>
+        /// 上证交易所
+        /// </summary>
+        SSE,
+        /// <summary>
+        /// 深圳交易所
+        /// </summary>
+        SZSE,
+    }
+
+    /// <summary>
+    /// 沪深港通标的状态
+    /// </summary>
     public enum ShSzHkConnect
     {
         /// <summary>
@@ -114,14 +136,14 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <summary>
         /// 市场类型（大板块）
         /// </summary>
-        [DataField(NameInJson = "market", EnumNameMap = new string[] { "主板", "中小板", "创业板", "科创板", "CDR" })]
+        [DataField(NameInJson = "market", EnumNameMap = new string[] { "主板", "中小板", "创业板", "科创板", "CDR", null })]
         public Market Market { get; set; }
 
         /// <summary>
-        /// 交易所代码
+        /// 交易所
         /// </summary>
-        [DataField(NameInJson = "exchange")]
-        public string ExchangeCode { get; set; }
+        [DataField(NameInJson = "exchange", EnumNameMap = new string[] { "SSE", "SZSE"})]
+        public Exchange Exchange { get; set; }
 
         /// <summary>
         /// 交易货币
