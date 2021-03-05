@@ -28,7 +28,7 @@ namespace TusharePro
         /// <summary>
         /// 当前用户凭证
         /// </summary>
-        private protected string UserToken { get; set; }
+        public string UserToken { get; private set; }
 
         /// <summary>
         /// Tushare Pro接口实例（不初始化数据凭证，您需要稍后初始化数据凭证）

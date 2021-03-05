@@ -76,11 +76,11 @@ namespace TusharePro.UTest
         }
 
         [TestMethod]
-        public async Task CoreClassRequestWithoutToken()
+        public void CoreClassRequestWithoutToken()
         {
             TushareProApi pro = new TushareProApi();
 
-            try
+            Assert.ThrowsExceptionAsync<Exception>(async () =>
             {
                 APIRequest request = new APIRequest()
                 {
@@ -100,14 +100,7 @@ namespace TusharePro.UTest
                 };
 
                 APIResponse response = await pro.Request(request);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Exception throwed: {ex.Message}");
-                return;
-            }
-
-            Assert.Fail("Method does not throw a exception.");
+            });
         }
 
         [TestMethod]

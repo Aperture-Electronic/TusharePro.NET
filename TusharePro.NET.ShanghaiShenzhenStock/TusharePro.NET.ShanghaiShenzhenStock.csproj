@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>TusharePro</RootNamespace>
+    <RootNamespace>TusharePro.ShanghaiShenzhenStock</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Deng LiWei</Authors>
     <Company>Aperture Electronic</Company>
-    <Copyright>Aperture Electronic, ownership of open source projects reserved. API rights by tushare.</Copyright>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Description>TusharePro.NET, a .NET Standard library for Tushare Pro platform.
+    <Product>TusharePro.NET</Product>
+    <Description>TusharePro.NET.ShanghaiShenzhenStock, a .NET Standard library for the Shanghai and Shenzhen stock APIs in Tushare Pro platform.
 Copyright (C) 2021 Aperture Electronic
 API Copyright(C) Tushare which is following BSD-3-Clause License.
 
@@ -21,19 +21,19 @@ API Copyright(C) Tushare which is following BSD-3-Clause License.
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Lesser General Public License for more details.</Description>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/Aperture-Electronic/TusharePro.NET.git</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TusharePro.NET\TusharePro.NET.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>
