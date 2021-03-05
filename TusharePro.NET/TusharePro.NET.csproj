@@ -6,7 +6,33 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Deng LiWei</Authors>
     <Company>Aperture Electronic</Company>
-    <Copyright>Copyright (C) 2021 Aperture Electronic, ownership of open source projects reserved.</Copyright>
+    <Copyright>Aperture Electronic, ownership of open source projects reserved. API rights by tushare.</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>TusharePro.NET, a .NET Standard library for Tushare Pro platform.
+Copyright (C) 2021 Aperture Electronic
+API Copyright(C) Tushare which is following BSD-3-Clause License.
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.</Description>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
 
 </Project>
