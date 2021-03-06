@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using static TusharePro.Interface.APIInterface;
+using static TusharePro.ShanghaiShenzhenStock.EnumerationNames;
 
 namespace TusharePro.ShanghaiShenzhenStock
 {
@@ -27,6 +28,10 @@ namespace TusharePro.ShanghaiShenzhenStock
         Suspension
     }
 
+
+    /// <summary>
+    /// 市场板块
+    /// </summary>
     public enum Market
     {
         /// <summary>
@@ -61,13 +66,33 @@ namespace TusharePro.ShanghaiShenzhenStock
     public enum Exchange
     {
         /// <summary>
-        /// 上证交易所
+        /// 上海证券交易所
         /// </summary>
         SSE,
         /// <summary>
-        /// 深圳交易所
+        /// 深圳证券交易所
         /// </summary>
         SZSE,
+        /// <summary>
+        /// 中金所
+        /// </summary>
+        CFFEX,
+        /// <summary>
+        /// 上海期货交易所
+        /// </summary>
+        SHFE,
+        /// <summary>
+        /// 郑商所
+        /// </summary>
+        CZCE,
+        /// <summary>
+        /// 大商所
+        /// </summary>
+        DCE,
+        /// <summary>
+        /// 上能源
+        /// </summary>
+        INE
     }
 
     /// <summary>
@@ -89,6 +114,9 @@ namespace TusharePro.ShanghaiShenzhenStock
         Shenzhen
     }
 
+    /// <summary>
+    /// 沪深股票
+    /// </summary>
     public class Stock
     {
         /// <summary>
@@ -136,13 +164,13 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <summary>
         /// 市场类型（大板块）
         /// </summary>
-        [DataField(NameInJson = "market", EnumNameMap = new string[] { "主板", "中小板", "创业板", "科创板", "CDR", null })]
+        [DataField(NameInJson = "market", EnumNameMap = MarketNamesMap)]
         public Market Market { get; set; }
 
         /// <summary>
         /// 交易所
         /// </summary>
-        [DataField(NameInJson = "exchange", EnumNameMap = new string[] { "SSE", "SZSE"})]
+        [DataField(NameInJson = "exchange", EnumNameMap = ExchangeNamesMap)]
         public Exchange Exchange { get; set; }
 
         /// <summary>
@@ -154,7 +182,7 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <summary>
         /// 上市状态
         /// </summary>
-        [DataField(NameInJson = "list_status", EnumNameMap = new string[] { "L", "D", "P" })]
+        [DataField(NameInJson = "list_status", EnumNameMap = ListStatusNamesMap)]
         public ListStatus ListStatus { get; set; }
 
         /// <summary>
@@ -172,9 +200,64 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <summary>
         /// 是否沪深港通标的
         /// </summary>
-        [DataField(NameInJson = "is_hs", EnumNameMap = new string[] { "N", "H", "S" })]
+        [DataField(NameInJson = "is_hs", EnumNameMap = ShSzHkConnectNamesMap)]
         public ShSzHkConnect ShSzHkConnect { get; set; }
 
+        /// <summary>
+        /// 获得表示该支股票的简略字符串
+        /// </summary>
         public override string ToString() => $"{Name}({Code})";
+    }
+
+    /// <summary>
+    /// 交易状态
+    /// </summary>
+    public enum TradeStatus
+    {
+        /// <summary>
+        /// 休市
+        /// </summary>
+        Closing,
+
+        /// <summary>
+        /// 交易
+        /// </summary>
+        Opening,
+    }
+
+    /// <summary>
+    /// 交易日
+    /// </summary>
+    public class TradeDay
+    {
+        /// <summary>
+        /// 交易所
+        /// </summary>
+        [DataField(NameInJson = "exchange", EnumNameMap = ExchangeNamesMap)]
+        public Exchange Exchange { get; set; }
+
+        /// <summary>
+        /// 日历日期
+        /// </summary>
+        [DataField(NameInJson = "cal_date", DateTimeConvert = true)]
+        public DateTime Date { get; set; }
+
+        /// <summary>
+        /// 交易状态
+        /// </summary>
+        [DataField(NameInJson = "is_open", EnumNameMap = TradeStatusNamesMap)]
+        public TradeStatus TradeStatus { get; set; }
+
+        /// <summary>
+        /// 上一交易日
+        /// </summary>
+        [DataField(NameInJson = "pretrade_date", DateTimeConvert = true)]
+        public DateTime? PretradeDate { get; set; }
+
+        /// <summary>
+        /// 获得表示该交易日的字符串
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => $"[{Enum.GetName(typeof(Exchange), Exchange)}]{Date.ToString("yyyy-MM-dd")}({(TradeStatus == TradeStatus.Opening ? "交易" : "休市")})";
     }
 }

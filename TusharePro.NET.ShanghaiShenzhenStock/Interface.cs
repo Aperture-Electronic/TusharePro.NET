@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TusharePro.Interface;
 using TusharePro.ShanghaiShenzhenStock;
+using static TusharePro.ShanghaiShenzhenStock.EnumerationNames;
 
 namespace TusharePro.ShanghaiShenzhenStock
 {
@@ -54,8 +55,6 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <returns>股票的基本信息</returns>
         public async Task<Stock> BasicInformation(string tsCode)
         {
-            string userToken = api.UserToken;
-
             // Generate the request
             Dictionary<string, string> requestParam = new Dictionary<string, string>()
             {
@@ -72,10 +71,8 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <returns>股票的基本信息</returns>
         public async Task<List<Stock>> BasicInformation(ListStatus status)
         {
-            string userToken = api.UserToken;
-
             // Generate the request
-            string[] statusCode = {"L", "D", "P" };
+            string[] statusCode = ListStatusNamesMap.Split(',');
             Dictionary<string, string> requestParam = new Dictionary<string, string>()
             {
                 {"list_status", statusCode[(int)status]}
@@ -91,10 +88,8 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <returns>股票的基本信息</returns>
         public async Task<List<Stock>> BasicInformation(Exchange exchange)
         {
-            string userToken = api.UserToken;
-
             // Generate the request
-            string[] exchangeCode = { "SSE", "SZSE"};
+            string[] exchangeCode = ExchangeNamesMap.Split(',');
             Dictionary<string, string> requestParam = new Dictionary<string, string>()
             {
                 {"exchange", exchangeCode[(int)exchange]}
@@ -110,16 +105,85 @@ namespace TusharePro.ShanghaiShenzhenStock
         /// <returns>股票的基本信息</returns>
         public async Task<List<Stock>> BasicInformation(ShSzHkConnect shSzHkConnect)
         {
-            string userToken = api.UserToken;
-
             // Generate the request
-            string[] exchangeCode = { "N", "H", "S" };
+            string[] ShSzHkConnect = ShSzHkConnectNamesMap.Split(',');
             Dictionary<string, string> requestParam = new Dictionary<string, string>()
             {
-                {"is_hs", exchangeCode[(int)shSzHkConnect]}
+                {"is_hs", ShSzHkConnect[(int)shSzHkConnect]}
             };
 
             return await BasicInfomation(requestParam);
+        }
+
+        /// <summary>
+        /// 获取某交易所某时段内的交易日历
+        /// </summary>
+        /// <param name="parameters">参数</param>
+        /// <returns>交易日历</returns>
+        private async Task<List<TradeDay>> TradeCalendar(Dictionary<string, string> parameters)
+        {
+            APIRequest request = new APIRequest()
+            {
+                InterfaceName = "trade_cal",
+                Parameters = parameters,
+                Fields = APIInterface.GetAllDataFieldName(typeof(TradeDay))
+            };
+
+            // Try to request and get response
+            APIResponse response = await api.Request(request);
+
+            if (response.ResponseCode != ResponseCode.OK)
+            {
+                throw new Exception(response.ErrorMessage);
+            }
+
+            // Try to deserialize the stock information
+            return response.GetDataSet<TradeDay>();
+        }
+
+        /// <summary>
+        /// 获取某交易所某时段内的交易日历
+        /// </summary>
+        /// <param name="exchange">交易所</param>
+        /// <param name="startDate">时段开始日期</param>
+        /// <param name="endDate">时段结束日期</param>
+        /// <returns>交易日历</returns>
+        public async Task<List<TradeDay>> TradeCalendar(Exchange exchange, DateTime startDate, DateTime endDate)
+        {
+            // Generate the request
+            string[] exchangeCode = ExchangeNamesMap.Split(',');
+            Dictionary<string, string> requestParam = new Dictionary<string, string>()
+            {
+                {"exchange", exchangeCode[(int)exchange]},
+                {"start_date", startDate.ToString("yyyyMMdd") },
+                {"end_date", endDate.ToString("yyyyMMdd") },
+            };
+
+            return await TradeCalendar(requestParam);
+        }
+
+        /// <summary>
+        /// 获取某交易所某时段内对应交易状态的交易日历
+        /// </summary>
+        /// <param name="exchange">交易所</param>
+        /// <param name="startDate">时段开始日期</param>
+        /// <param name="endDate">时段结束日期</param>
+        /// <param name="tradeStatus">交易状态</param>
+        /// <returns>交易日历</returns>
+        public async Task<List<TradeDay>> TradeCalendar(Exchange exchange, DateTime startDate, DateTime endDate, TradeStatus tradeStatus)
+        {
+            // Generate the request
+            string[] exchangeCode = ExchangeNamesMap.Split(',');
+            string[] tradeStatusCode = TradeStatusNamesMap.Split(',');
+            Dictionary<string, string> requestParam = new Dictionary<string, string>()
+            {
+                {"exchange", exchangeCode[(int)exchange]},
+                {"start_date", startDate.ToString("yyyyMMdd") },
+                {"end_date", endDate.ToString("yyyyMMdd") },
+                {"is_open", tradeStatusCode[(int)tradeStatus]}
+            };
+
+            return await TradeCalendar(requestParam);
         }
     }
 }

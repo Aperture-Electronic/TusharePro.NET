@@ -20,7 +20,7 @@ namespace TusharePro.Interface
             /// <summary>
             /// 枚举字段的别名映射表
             /// </summary>
-            public string[] EnumNameMap { get; set; }
+            public string EnumNameMap { get; set; }
 
             /// <summary>
             /// 该字段要求字符串到日期时间转换
@@ -129,7 +129,7 @@ namespace TusharePro.Interface
                         else if (!(attribute.EnumNameMap is null))
                         {
                             // Field type is enum with name, convert string to the enum
-                            int index = new List<string>(attribute.EnumNameMap).IndexOf(str);
+                            int index = new List<string>(attribute.EnumNameMap.Split(',')).IndexOf(str??"");
                             if (index >= 0)
                             {
                                 type.GetProperty(col.Value.DataFieldName).SetValue(newInstance, index);

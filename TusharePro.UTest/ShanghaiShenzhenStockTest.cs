@@ -68,5 +68,31 @@ namespace TusharePro.UTest
             Assert.IsTrue(stocks.Count > 0);
             Console.WriteLine($"Shenzhen-Hongkong connect has {stocks.Count} stocks");
         }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetTradeDaysInRange()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+            List<TradeDay> tradeDays = await shSzApi.TradeCalendar(Exchange.SSE, new DateTime(2021, 1, 1), DateTime.Now);
+            Assert.IsTrue(tradeDays.Count > 0);
+            foreach (TradeDay day in tradeDays)
+            {
+                Console.WriteLine(day);
+            }
+        }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetTradeDaysInRangeAndSpecificStatus()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+            List<TradeDay> tradeDays = await shSzApi.TradeCalendar(Exchange.SZSE, new DateTime(2021, 1, 1), DateTime.Now, TradeStatus.Closing);
+            Assert.IsTrue(tradeDays.Count > 0);
+            foreach (TradeDay day in tradeDays)
+            {
+                Console.WriteLine(day);
+            }
+        }
     }
 }
