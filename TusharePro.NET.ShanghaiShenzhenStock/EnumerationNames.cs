@@ -44,8 +44,18 @@ namespace TusharePro.ShanghaiShenzhenStock
         public const string ShSzHkConnectNamesMap = "N,H,S";
 
         /// <summary>
+        /// 沪深港通类型字符串映射
+        /// </summary>
+        public const string ShSzHkConnectTypeNamesMap = ",SH,SZ";
+
+        /// <summary>
         /// 交易状态字符串映射
         /// </summary>
         public const string TradeStatusNamesMap = "0,1";
+
+        /// <summary>
+        /// 性别字符串映射
+        /// </summary>
+        public const string GenderNamesMap = "M,F,";
     }
 }

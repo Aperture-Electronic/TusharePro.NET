@@ -37,9 +37,19 @@ namespace TusharePro.Interface
             public string EnumNameMap { get; set; }
 
             /// <summary>
-            /// 该字段要求字符串到日期时间转换
+            /// 该字段要求字符串到日期转换
             /// </summary>
-            public bool DateTimeConvert { get; set; }
+            public bool DateConvert { get; set; }
+
+            /// <summary>
+            /// 该字段要求字符串到浮点类型的转换
+            /// </summary>
+            public bool FloatConvert { get; set; }
+
+            /// <summary>
+            /// 该字段要求字符串到整数类型的转换
+            /// </summary>
+            public bool IntegerConvert { get; set; }
         }
 
         /// <summary>
@@ -127,7 +137,7 @@ namespace TusharePro.Interface
                     {
                         string str = row[col.Key];
                         DataFieldAttribute attribute = col.Value.Attriubte;
-                        if (attribute.DateTimeConvert)
+                        if (attribute.DateConvert)
                         {
                             // Field type is datetime, it need convert form string
                             if (str is null)
@@ -136,9 +146,25 @@ namespace TusharePro.Interface
                             }
                             else
                             {
+                                int length = row[col.Key].Length;
+                                string formatString = length switch
+                                {
+                                    4 => "yyyy",
+                                    6 => "yyyyMM",
+                                    8 => "yyyyMMdd",
+                                    _ => ""
+                                };
                                 type.GetProperty(col.Value.DataFieldName).SetValue(newInstance,
-                                DateTime.ParseExact(row[col.Key], "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture));
+                                DateTime.ParseExact(row[col.Key], formatString, System.Globalization.CultureInfo.CurrentCulture));
                             }
+                        }
+                        else if (attribute.FloatConvert)
+                        {
+                            type.GetProperty(col.Value.DataFieldName).SetValue(newInstance, float.Parse(str ?? "NaN"));
+                        }
+                        else if (attribute.IntegerConvert)
+                        {
+                            type.GetProperty(col.Value.DataFieldName).SetValue(newInstance, int.Parse(str ?? "0"));
                         }
                         else if (!(attribute.EnumNameMap is null))
                         {

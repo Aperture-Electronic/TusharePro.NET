@@ -94,5 +94,87 @@ namespace TusharePro.UTest
                 Console.WriteLine(day);
             }
         }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetNameChangeHistory()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+            List<NameHistory> histories = await shSzApi.NameChange("600848.SH");
+            Assert.IsTrue(histories.Count > 0);
+            foreach(NameHistory history in histories)
+            {
+                Console.WriteLine(history);
+            }
+        }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetShSzHkConnectConstituent()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+            List<ShSzHkConnectConstituent> constituents = await shSzApi.ShSzHkConnectConstituents(ShSzHkConnect.Shanghai);
+            Assert.IsTrue(constituents.Count > 0);
+            foreach (ShSzHkConnectConstituent constituent in constituents)
+            {
+                Console.WriteLine(constituent);
+            }
+        }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetStockCompanyInfo()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+            List<StockCompany> infos = await shSzApi.StockCompanyInformations(new string[] { "603986.SH", "000725.SZ"});
+            Assert.IsTrue(infos.Count > 0);
+            foreach (var info in infos)
+            {
+                Console.WriteLine(info);
+            }
+        }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetStockCompanyManagers()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+            List<StockCompanyManager> managers = await shSzApi.StockCompanyManagers(new string[] { "603986.SH", "000725.SZ" });
+            Assert.IsTrue(managers.Count > 0);
+            foreach (var man in managers)
+            {
+                Console.WriteLine(man);
+            }
+        }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetStockCompanyManagerRewards()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+            List<StockCompanyManagerRewards> managers = await shSzApi.StockCompanyManagerRewards(new string[] { "603986.SH", "000725.SZ" });
+            Assert.IsTrue(managers.Count > 0);
+            foreach (var man in managers)
+            {
+                Console.WriteLine(man);
+            }
+        }
+
+        [TestMethod]
+        public async Task ShSzStockClassGetStockCompanyManagerAndRewards()
+        {
+            TushareProApi pro = new TushareProApi(TestToken);
+            ShanghaiShenzhenStockApi shSzApi = new ShanghaiShenzhenStockApi(pro);
+            var managers = await shSzApi.StockCompanyManagerAndRewards(new string[] { "603986.SH", "000725.SZ" });
+            Assert.IsTrue(managers.Count > 0);
+            foreach ((StockCompanyManager, StockCompanyManagerRewards) man in managers)
+            {
+                StockCompanyManager manager;
+                StockCompanyManagerRewards rewards;
+                (manager, rewards) = man;
+                Console.WriteLine(manager);
+                Console.WriteLine(rewards);
+            }
+        }
     }
 }

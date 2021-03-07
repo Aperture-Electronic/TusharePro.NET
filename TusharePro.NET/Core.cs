@@ -19,8 +19,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TusharePro.Interface;
 
+/// <summary>
+/// Tushare Pro API命名空间
+/// </summary>
 namespace TusharePro
 {
+    /// <summary>
+    /// Tushare Pro API接口
+    /// </summary>
     public partial class TushareProApi
     {
         private const string ApiURL = "http://api.tushare.pro";
@@ -36,13 +42,19 @@ namespace TusharePro
         public TushareProApi() => UserToken = null;
 
         /// <summary>
+        /// 设置用户凭证
+        /// </summary>
+        /// <param name="userToken">用户凭证</param>
+        public void SetUserToken(string userToken) => UserToken = userToken;
+
+        /// <summary>
         /// Tushare Pro接口实例
         /// </summary>
         /// <param name="userToken">数据凭证</param>
         public TushareProApi(string userToken) => UserToken = userToken;
 
         /// <summary>
-        /// 数据凭证十分为空
+        /// 数据凭证是否为空
         /// </summary>
         public bool UserTokenValid => !string.IsNullOrWhiteSpace(UserToken);
 
